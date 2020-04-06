@@ -27,23 +27,21 @@ stages:
       - publishImageConfig:
           dockerfilePath: ./docker-rancher/Dockerfile
           buildContext: .
-          # tag: direct-med-supplies-api:${CICD_EXECUTION_SEQUENCE}
-          # try to build to latest
-          tag: direct-med-supplies-api:latest
+          tag: direct-med-supplies-api:${CICD_EXECUTION_SEQUENCE}
 #          pushRemote: true
 #          registry: 34.71.106.13:4000
         env:
           PLUGIN_INSECURE: "true"
           PLUGIN_DEBUG: "true"
-#  - name: Deploy staging
-#    steps:
-#      - applyYamlConfig:
-#          path: ./.rancher-deployment.yaml
-#    when:
-#      branch:
-#        include:
-#          - master
-#      event:
-#        include:
-#          - push
-#          - pull_request
+  - name: Deploy staging
+    steps:
+      - applyYamlConfig:
+          path: ./.rancher-deployment.yaml
+    when:
+      branch:
+        include:
+          - master
+      event:
+        include:
+          - push
+          - pull_request
