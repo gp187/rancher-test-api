@@ -1,0 +1,128 @@
+{
+  "apps" : [
+    {
+      "name": "subscription-microservice",
+      "script": "npm",
+      "args": "run startMicroservice:subscription",
+      "autorestart": true,
+      "exp_backoff_restart_delay": 100,
+      "restart_delay": 3000,
+      "watch_delay": 1000,
+      "watch": ["dist/microservices/subscription"],
+      "ignore_watch": ["node_modules"],
+      "merge_logs": true,
+      "watch_options": {
+        "followSymlinks": false
+      },
+      "max_memory_restart": "100M",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": 32001,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      },
+      "env_staging": {
+        "NODE_ENV": "staging",
+        "PORT": 32001,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      },
+      "env_production": {
+        "NODE_ENV": "production",
+        "PORT": 32001,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      }
+    },
+    {
+      "name": "storage-microservice",
+      "script": "npm",
+      "args": "run startMicroservice:storage",
+      "autorestart": true,
+      "exp_backoff_restart_delay": 100,
+      "restart_delay": 3000,
+      "watch_delay": 1000,
+      "watch": ["dist/microservices/storage"],
+      "ignore_watch": ["node_modules"],
+      "merge_logs": true,
+      "watch_options": {
+        "followSymlinks": false
+      },
+      "max_memory_restart": "100M",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": 32002,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      },
+      "env_staging": {
+        "NODE_ENV": "staging",
+        "PORT": 32002,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      },
+      "env_production": {
+        "NODE_ENV": "production",
+        "PORT": 32002,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      }
+    },
+    {
+      "name": "messaging-microservice",
+      "script": "npm",
+      "args": "run startMicroservice:messaging",
+      "autorestart": true,
+      "exp_backoff_restart_delay": 100,
+      "restart_delay": 3000,
+      "watch_delay": 1000,
+      "watch": ["dist/microservices/messaging"],
+      "ignore_watch": ["node_modules"],
+      "merge_logs": true,
+      "watch_options": {
+        "followSymlinks": false
+      },
+      "max_memory_restart": "100M",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": 32003,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      },
+      "env_staging": {
+        "NODE_ENV": "staging",
+        "PORT": 32003,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      },
+      "env_production": {
+        "NODE_ENV": "production",
+        "PORT": 32003,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      }
+    },
+    {
+      "name": "documents-microservice",
+      "script": "npm",
+      "args": "run startMicroservice:documents",
+      "autorestart": true,
+      "exp_backoff_restart_delay": 100,
+      "restart_delay": 3000,
+      "watch_delay": 1000,
+      "watch": ["dist/microservices/documents"],
+      "ignore_watch": ["node_modules"],
+      "merge_logs": true,
+      "watch_options": {
+        "followSymlinks": false
+      },
+      "max_memory_restart": "100M",
+      "env": {
+        "NODE_ENV": "development",
+        "PORT": 32004,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      },
+      "env_staging": {
+        "NODE_ENV": "staging",
+        "PORT": 32004,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      },
+      "env_production": {
+        "NODE_ENV": "production",
+        "PORT": 32004,
+        "DOCKER_ROOT_DIR": "/var/nao"
+      }
+    }
+  ]
+}

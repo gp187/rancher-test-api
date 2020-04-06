@@ -1,0 +1,49 @@
+stages:
+  - name: Build bee11 staging
+    steps:
+      - runScriptConfig:
+          image: node:10.16.3-alpine
+          shellScript: |-
+            apk add --no-cache --virtual .gyp python make g++
+            npm i
+            npm run staging
+        env:
+          FIRST_KEY: VALUE
+          SECOND_KEY: VALUE2
+        envFrom:
+          - sourceName: couchbase
+            sourceKey: COUCHBASE_URL
+            #targetKey: ALIAS_ENV
+        when:
+          branch:
+            include:
+              - master
+          event:
+            include:
+              - push
+              - pull_request
+  - name: Publish the bee11 docker
+    steps:
+      - publishImageConfig:
+          dockerfilePath: ./docker-rancher/Dockerfile
+          buildContext: .
+          # tag: direct-med-supplies-api:${CICD_EXECUTION_SEQUENCE}
+          # try to build to latest
+          tag: direct-med-supplies-api:latest
+#          pushRemote: true
+#          registry: 34.71.106.13:4000
+        env:
+          PLUGIN_INSECURE: "true"
+          PLUGIN_DEBUG: "true"
+#  - name: Deploy staging
+#    steps:
+#      - applyYamlConfig:
+#          path: ./.rancher-deployment.yaml
+#    when:
+#      branch:
+#        include:
+#          - master
+#      event:
+#        include:
+#          - push
+#          - pull_request

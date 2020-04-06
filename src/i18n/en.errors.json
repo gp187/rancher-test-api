@@ -1,0 +1,7 @@
+{
+  "auth_forbidden_access": {"statusCode": 401, "description": "Access denied!"},
+  "firebase_cannot_create_user": {"statusCode": 500, "description": "Cannot create firebase user"},
+  "firebase_cannot_create_user_data": {"statusCode": 500, "description": "Cannot create firebase user data"},
+  "couch_cannot_insert": {"statusCode": 500, "description": "Cannot insert document in couch"},
+  "user_create_conflict": {"statusCode": 403, "description": "Email already exists"}
+}

@@ -1,0 +1,77 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: direct-med-supplies-api-service
+spec:
+  selector:
+    app: direct-med-supplies-api
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 3010
+      targetPort: 3010
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-direct-med-supplies-api
+  #namespace: nao-demos
+  labels:
+    app: direct-med-supplies-api
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: direct-med-supplies-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: direct-med-supplies-api
+    spec:
+      imagePullSecrets:
+        - name: pipeline-docker-registry
+        - name: pipeline-secret
+      containers:
+#        - image: 127.0.0.1:34069/${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        - image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+          imagePullPolicy: Always
+          name: direct-med-supplies-api
+          ports:
+            - containerPort: 3010
+              name: api
+              protocol: TCP
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {}
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          stdin: true
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          tty: true
+          volumeMounts:
+            - mountPath: /var/nao
+              name: vol1
+      dnsConfig: {}
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            defaultMode: 256
+            items:
+              - key: .env
+                path: .env
+            name: dot-env
+            optional: false
+          name: vol1
